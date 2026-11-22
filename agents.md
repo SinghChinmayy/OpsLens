@@ -2,9 +2,7 @@
 
 ## Project summary
 
-Aegis is an observability and controlled-remediation platform for self-hosted services. It detects service failures, creates auditable incidents, proposes safe remediation plans, requires human approval, executes constrained actions, and verifies recovery.
-
-The core product promise is not automatic repair at any cost. Aegis should make operational action safe, visible, reviewable, and reversible where possible.
+OpsLens is an AI infrastructure investigator. Read `Docs/product-direction.md` before planning or implementing work. Diagnosis and bounded read-only tools come first; approved remediation and automatic healing are later milestones. The project is design-stage; do not describe planned capabilities as implemented.
 
 ## Current tech direction
 
@@ -13,13 +11,13 @@ The core product promise is not automatic repair at any cost. Aegis should make 
 - Router: Chi preferred for the first implementation
 - Database: PostgreSQL
 - Database access: `pgx` with SQL migrations
-- Async work: background worker process for remediation runs and recovery checks
+- Async work: background worker process for bounded investigations; remediation workers are deferred
 - Observability: structured logs, Prometheus metrics, OpenTelemetry traces
 - API contract: OpenAPI generated from or maintained beside implemented routes
 
 ## Core domain model
 
-- Service: a target system Aegis can observe
+- Service: a target system OpsLens can observe
 - Signal: raw evidence such as an alert, health-check failure, log anomaly, or metric threshold breach
 - Incident: operator-facing event created from one or more signals
 - Remediation plan: proposed safe action, not execution itself
@@ -29,16 +27,7 @@ The core product promise is not automatic repair at any cost. Aegis should make 
 
 ## First backend slice
 
-Build the first vertical slice in this order:
-
-1. `GET /health`
-2. `POST /v1/services`
-3. `GET /v1/services`
-4. `POST /v1/signals`
-5. `POST /v1/incidents`
-6. `GET /v1/incidents/{incident_id}`
-
-This slice is only done when it has persistence, tests, structured logs, metrics, and curl examples.
+Follow the investigation-first vertical slice and acceptance criteria in `Docs/product-direction.md`. The historical remediation-first API guide is learning material, not the current implementation sequence.
 
 ## API principles
 
@@ -75,6 +64,7 @@ Record progress as features are built. A feature is not done until it has:
 Primary docs currently live in:
 
 - `Readme.md`
+- `Docs/product-direction.md`
 - `Docs/learnings/api-guide.md`
 - `Docs/logs/week1.md`
 

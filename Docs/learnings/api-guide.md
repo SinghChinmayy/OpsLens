@@ -1,3 +1,5 @@
+> Historical Aegis learning material. The [OpsLens product direction](../product-direction.md) supersedes this implementation sequence.
+
 # APIs for Aegis: Must-Know Guide
 
 > A practical guide to designing, building, documenting, testing, and operating APIs for **Aegis — Observability & Controlled Remediation Platform**.

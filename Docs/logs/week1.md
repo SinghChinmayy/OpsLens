@@ -1,3 +1,5 @@
+> Historical Aegis learning material. The [OpsLens product direction](../product-direction.md) supersedes this implementation sequence.
+
 Build a small FastAPI demo service with health, latency, and error endpoints.
 
 Export metrics, structured logs, and traces.
