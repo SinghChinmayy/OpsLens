@@ -18,7 +18,7 @@ A user question or signal selects an environment, service, and time window. The 
 - PostgreSQL: services, investigations, evidence metadata/snapshots, tool calls, findings, and audit events. Raw telemetry stays in its source systems with explicit snapshot retention.
 - Model adapter: one provider initially, structured outputs with evidence IDs and allowed diagnostic requests.
 - Policy/tool gateway: validates scope, identity, tool name, arguments, result size, query duration, and budget before any call. No arbitrary shell, URL fetch, or database query capability.
-- Evaluation adapter: versioned inputs and independent outcomes exchanged with ChaosLab; no dependency on its private Python files.
+- Built-in evaluator: versioned fixtures, scenario catalogue, replay/live runners, and labelled outcomes in this repository. Evaluation ground truth is inaccessible to the investigator.
 
 Use Go, Chi, pgx, SQL migrations, structured logs, Prometheus metrics, and OpenTelemetry as the intended backend stack. UI framework and exact model are undecided. Keep provider and telemetry interfaces narrow; defer a plugin platform.
 
@@ -58,22 +58,24 @@ Treat logs, traces, labels, retrieved documents, and model output as untrusted. 
 
 MVP has no infrastructure mutations. Later remediation requires allowlisted actions, exact target identity, immutable plan-bound approval, expiry, precondition revalidation, idempotency, durable execution states, bounded attempts, and independent postconditions. Model credentials never confer executor or approval authority. Restarting is not inherently reversible and cannot reconstruct lost data.
 
-## ChaosLab and evaluation
+## Built-in evaluation
 
-Keep repositories separate: OpsLens investigates; ChaosLab creates failures and evaluates outcomes. Exchange versioned JSON with environment/service identity, timestamps, evidence IDs, scenario version, code commits, and image digests. Keep fault labels and expected answers in evaluator-only records.
+Build evaluation within OpsLens, in the same repository. No ChaosLab integration or dependency is planned. Keep evaluator logic separate from investigator logic so labelled fault identities and expected answers never enter model context or tool responses.
 
-First strengthen ChaosLab admission locking, experiment-owned cleanup, safety-path tests, and separate availability/correctness verdicts. These are research recommendations; suspected race/cleanup issues need reproduction.
+The evaluator owns versioned evidence fixtures, scenario definitions, expected outcomes, and score reports. Begin with recorded replay bundles, then add controlled live scenarios in an isolated local environment. A scenario runner owns injection and cleanup; the investigator only receives ordinary operational evidence. Record cleanup ownership so evaluator restoration cannot be counted as product healing.
 
-Compare a deterministic runbook selector with the AI on identical evidence. Begin with healthy controls, reversible failures, partial data, stale telemetry, misleading logs, and ambiguous causes. Split replay cases by scenario variant to reduce leakage. Proposed initial evaluation: about 30 labelled cases and repeated live scenarios; adjust to available time and cost.
+Compare a deterministic runbook selector with the AI on identical evidence. Include healthy controls, reversible failures, partial data, stale telemetry, misleading logs, and ambiguous causes. Split cases by scenario variant to reduce leakage. Proposed initial evaluation: about 30 labelled cases and repeated live scenarios, adjusted to available time and cost.
 
-Measure diagnosis/runbook selection, evidence accuracy, unsupported claims, appropriate abstention, tool-policy violations, false full-recovery declarations, latency, and model cost. Log cleanup ownership and never attribute watchdog restoration to OpsLens. Publish actual results with conditions; zero observed unsafe actions is not a universal guarantee.
+Measure diagnosis/runbook selection, evidence-reference accuracy, unsupported claims, appropriate abstention, tool-policy violations, false full-recovery declarations, latency, and model cost. Publish actual results with conditions; zero observed unsafe actions is not a universal guarantee.
+
+Keep versioned environment/service identity, timestamps, evidence IDs, source commits, and image digests in evaluation records. Safety tests must cover fixture cleanup, controller failure, concurrent scenario admission, missing telemetry, and injection failure before enabling live scenarios.
 
 ## Milestones
 
 1. Persisted investigation and deterministic replay report.
 2. One live telemetry integration and constrained read-only diagnostics.
 3. Model-driven investigation with budgets, citations, and abstention.
-4. Timeline UI, ChaosLab evaluation, repeatable demo, documented results.
+4. Timeline UI, built-in evaluation, repeatable demo, documented results.
 5. Human-approved remediation with independent semantic verification.
 6. Narrow policy-authorized automatic recovery only after reliable evaluation.
 

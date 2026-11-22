@@ -31,9 +31,9 @@ One local Docker Compose environment, one model provider, service overview, inve
 
 Infrastructure mutation is outside the first release. Human-approved remediation follows useful diagnosis; narrowly preauthorized healing follows demonstrated execution safety and recovery verification.
 
-## ChaosLab integration
+## Built-in evaluator
 
-[ChaosLab](https://github.com/SinghChinmayy/chaoslab-petclinic) remains a separate fault-injection and evaluation project. It introduces controlled failures and independently checks user-visible outcomes. OpsLens receives operational evidence, not the hidden fault identity or expected answer. Watchdog cleanup must never be credited as OpsLens healing.
+OpsLens will include its own evaluation module, fixtures, scenario catalogue, and replay runner in this repository. It will compare investigations with labelled expected outcomes and measure evidence quality, diagnosis, abstention, latency, and cost. Expected answers stay outside the investigator's evidence context. ChaosLab remains a separate project with no planned integration or dependency.
 
 ## Documentation
 
